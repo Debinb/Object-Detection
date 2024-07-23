@@ -1,14 +1,27 @@
-import numpy as np
-import cv2 as cv
-from matplotlib import pyplot as plt
- 
-img = cv.imread('test.mp4', cv.IMREAD_GRAYSCALE)
-assert img is not None, "file could not be read, check with os.path.exists()"
-edges = cv.Canny(img,100,200)
- 
-plt.subplot(121),plt.imshow(img,cmap = 'gray')
-plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
- 
-plt.show()
+   
+def main(): 
+    # Open the default webcam  
+    cap = cv2.VideoCapture(0) 
+      
+    while True: 
+        # Read a frame from the webcam 
+        ret, frame = cap.read() 
+        if not ret: 
+            print('Image not captured') 
+            break
+          
+        # Perform Canny edge detection on the frame 
+        blurred, edges = canny_edge_detection(frame) 
+          
+        # Display the original frame and the edge-detected frame 
+        #cv2.imshow("Original", frame) 
+        cv2.imshow("Blurred", blurred) 
+        cv2.imshow("Edges", edges) 
+          
+        # Exit the loop when 'q' key is pressed 
+        if cv2.waitKey(1) & 0xFF == ord('q'): 
+            break
+      
+    # Release the webcam and close the windows 
+    cap.release() 
+    cv2.destroyAllWindows()
